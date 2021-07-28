@@ -195,63 +195,117 @@ class _ZendeskChat extends State<ZendeskChat> {
 
   Widget _userWidget() => Container(
     padding: EdgeInsets.all(5),
-    child: Card(
-      color: Theme.of(context).primaryColor,
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      child: Container(
-        padding: EdgeInsets.all(5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width / 0.1,
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                cursorColor: Colors.white,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: 'Message',
-                  labelStyle: TextStyle(color: Colors.white),
-                  prefixIcon: Icon(
-                    FontAwesomeIcons.pencilAlt,
-                    color: Colors.white,
-                  ),
+    child: Row(
+      children: [
+        Expanded(
+            child: Card(
+              color: Theme.of(context).primaryColor,
+              elevation: 10,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(40.0))),
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                // height: 80.0,
+                child: Row(
+                  // width: MediaQuery.of(context).size.width / 0.1,
+                  // padding: const EdgeInsets.all(10),
+                  children: [
+                    Expanded(
+                      child: TextField(
+                      cursorColor: Colors.white,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText:  'Type a Message',
+                        hintStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIcon: Icon(
+                          FontAwesomeIcons.pencilAlt,
+                          color: Colors.white,
+                          size: 20.0,
+                        ),
+
+                      ),
+                      controller: _tecM,
+                      onChanged: (text) => _z.sendTyping(text.isNotEmpty),
+                    ),
+                    flex: 5,),
+                    Expanded(
+                      child: InkWell(
+                        child:Icon(Icons.attach_file, color: Colors.white,),
+                        onTap: _attach,
+                      ),
+                    ),
+                  ],
                 ),
-                controller: _tecM,
-                onChanged: (text) => _z.sendTyping(text.isNotEmpty),
+                // child: Column(
+                //   mainAxisSize: MainAxisSize.min,
+                //   children: [
+                //     Container(
+                //       width: MediaQuery.of(context).size.width / 0.1,
+                //       padding: EdgeInsets.all(10),
+                //       child: TextField(
+                //         cursorColor: Colors.white,
+                //         style: TextStyle(color: Colors.white),
+                //         decoration: InputDecoration(
+                //           labelText: 'Message',
+                //           labelStyle: TextStyle(color: Colors.white),
+                //           prefixIcon: Icon(
+                //             FontAwesomeIcons.pencilAlt,
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //         controller: _tecM,
+                //         onChanged: (text) => _z.sendTyping(text.isNotEmpty),
+                //       ),
+                //     ),
+                //     Row(
+                //       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         FloatingActionButton(
+                //           heroTag: 'attachFab',
+                //           mini: true,
+                //           backgroundColor: Theme.of(context).accentColor,
+                //           child: Icon(Icons.attach_file),
+                //           onPressed: _attach,
+                //         ),
+                //         FloatingActionButton(
+                //           mini: true,
+                //           heroTag: 'zendeskSettings',
+                //           child: Icon(Icons.settings),
+                //           onPressed: _settings,
+                //         ),
+                //         FloatingActionButton(
+                //           mini: true,
+                //           heroTag: 'zendeskSend',
+                //           child: Icon(Icons.send),
+                //           onPressed: _send,
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FloatingActionButton(
-                  heroTag: 'attachFab',
-                  mini: true,
-                  backgroundColor: Theme.of(context).accentColor,
-                  child: Icon(Icons.attach_file),
-                  onPressed: _attach,
-                ),
-                FloatingActionButton(
-                  mini: true,
-                  heroTag: 'zendeskSettings',
-                  child: Icon(Icons.settings),
-                  onPressed: _settings,
-                ),
-                FloatingActionButton(
-                  mini: true,
-                  heroTag: 'zendeskSend',
-                  child: Icon(Icons.send),
-                  onPressed: _send,
-                ),
-              ],
-            ),
-          ],
+          flex: 5,
         ),
-      ),
-    ),
+        Expanded(
+          child: Container(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              height: 80.0,
+              child: FloatingActionButton(
+                mini: true,
+                heroTag: 'zendeskSend',
+                child: Icon(Icons.send),
+                onPressed: _send,
+              ),
+            ),
+          ),
+        ),
+      ],
+    )
   );
 
   Widget _chat() => ListView.builder(
@@ -362,6 +416,7 @@ class _ZendeskChat extends State<ZendeskChat> {
                 if (isAgent)
                   agent?.avatar != null
                       ? CachedNetworkImage(
+                      width: 30.0, height: 30.0,
                       imageUrl: agent!.avatar ?? '')
                       : Icon(Icons.person),
                 Card(
